@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Add new forum topic id"
+  },
+  "1.0.2": {
+    "en": "Add device trigger card for starting and ending reader stream"
   }
 }
