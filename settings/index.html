@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+</head>
+
+<body>
+<!-- Instruction -->
+<p data-i18n="settings.instruction"></p>
+<!-- MediaMTX API -->
+<fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend" data-i18n="settings.nvr"></legend>
+
+    <!-- IP address -->
+    <div class="field row">
+        <label class="homey-form-label" for="txt_ip" data-i18n="settings.ip"></label>
+        <input class="homey-form-input" id="txt_ip" type="text" value=""/>
+    </div>
+
+    <!-- Port -->
+    <div class="field row">
+        <label class="homey-form-label" for="txt_port" data-i18n="settings.port"></label>
+        <input class="homey-form-input" id="txt_port" type="text" value="9997"/>
+    </div>
+
+</fieldset>
+
+<!-- Credentials -->
+<fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend" data-i18n="settings.credentials"></legend>
+
+    <!-- Username -->
+    <div class="field row">
+        <label class="homey-form-label" for="txt_username" data-i18n="settings.username"></label>
+        <input class="homey-form-input" id="txt_username" type="text" value=""/>
+    </div>
+
+    <!-- Password -->
+    <div class="field row">
+        <label class="homey-form-label" for="txt_password" data-i18n="settings.password"></label>
+        <input class="homey-form-input" id="txt_password" type="password" value=""/>
+    </div>
+</fieldset>
+
+
+<!-- Settings -->
+<fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend" data-i18n="settings.settings"></legend>
+
+    <!-- External Hostname -->
+    <div class="field row">
+        <label class="homey-form-label" for="txt_externalHostname" data-i18n="settings.externalHostname"></label>
+        <input class="homey-form-input" id="txt_externalHostname" type="text" value=""/>
+    </div>
+</fieldset>
+
+<!-- Apply button -->
+<div class="field row">
+    <button id="btn_test" class="homey-button-primary-full" data-i18n="settings.testConnection"></button>
+    <br/>
+    <button id="btn_apply" class="homey-button-primary-full" data-i18n="settings.apply"></button>
+</div>
+
+<script type="text/javascript">
+  const txtNvrIp = document.getElementById('txt_ip');
+  const txtNvrPort = document.getElementById('txt_port');
+  const txtUsername = document.getElementById('txt_username');
+  const txtPassword = document.getElementById('txt_password');
+  const txtExternalHostname = document.getElementById('txt_externalHostname');
+  const btnApply = document.getElementById('btn_apply');
+  const btnTest = document.getElementById('btn_test');
+
+  function onHomeyReady(Homey) {
+    const readSettings = () => {
+      Homey.get('ufp:nvrip', (error, nvrip) => {
+        if (error) return Homey.alert(error);
+
+        if (nvrip) {
+          txtNvrIp.value = nvrip;
+        } else {
+          console.warn('[SETTINGS] Could not read UniFi Cloud Key IP address.');
+        }
+      });
+
+      Homey.get('ufp:nvrport', (error, nvrPort) => {
+        if (error) return Homey.alert(error);
+
+        if (nvrPort) {
+          txtNvrPort.value = nvrPort;
+        } else {
+          console.warn('[SETTINGS] Could not read UniFi Cloud Key Port.');
+        }
+      });
+
+      Homey.get('ufp:credentials', (error, credentials) => {
+        if (error) return Homey.alert(error);
+
+        if (credentials) {
+          txtUsername.value = credentials.username;
+          txtPassword.value = credentials.password;
+        } else {
+          console.warn('[SETTINGS] Could not read credentials.');
+        }
+      });
+
+      Homey.get('ufp:settings', (error, settings) => {
+        if (error) return Homey.alert(error);
+
+        if (settings) {
+          txtExternalHostname.value = settings.externalHostname;
+        } else {
+          console.warn('[SETTINGS] Could not read settings.');
+        }
+      });
+    };
+
+    const saveSettings = () => {
+      Homey.set('ufp:nvrip', txtNvrIp.value, (error, result) => {
+        if (error) return Homey.alert(error);
+        console.log('[SETTINGS] UniFi Cloud Key IP address saved.');
+      });
+
+      Homey.set('ufp:nvrport', txtNvrPort.value, (error, result) => {
+        if (error) return Homey.alert(error);
+        console.log('[SETTINGS] UniFi Cloud Key Port saved.');
+      });
+
+      const credentials = {
+        'username': txtUsername.value,
+        'password': txtPassword.value
+      };
+
+      Homey.set('ufp:credentials', credentials, (error, result) => {
+        if (error) return Homey.alert(error);
+        console.log('[SETTINGS] credentials saved.');
+      });
+
+      const settings = {
+        'externalHostname': txtExternalHostname.value,
+      };
+
+      Homey.set('ufp:settings', settings, (error, result) => {
+        if (error) return Homey.alert(error);
+        console.log('[SETTINGS] settings saved.');
+      });
+
+      Homey.alert(Homey.__('settings.saved'), 'info');
+    };
+
+    const testSettings = () => {
+      const settings = {
+        'host': txtNvrIp.value,
+        'port': txtNvrPort.value,
+        'user': txtUsername.value,
+        'pass': txtPassword.value,
+      };
+
+      Homey.api('POST', '/test', settings, function(err, response) {
+        if (err) return Homey.alert(err);
+        if (response) {
+          if (response.status === 'success') {
+            Homey.alert(Homey.__('settings.test_status.success'), 'info');
+          } else {
+            Homey.alert(Homey.__('settings.test_status.failure'), 'error');
+          }
+        }
+      });
+    };
+
+    btnTest.addEventListener('click', e => {
+      testSettings();
+    });
+
+    btnApply.addEventListener('click', e => {
+      saveSettings();
+    });
+
+    readSettings();
+
+    Homey.ready();
+  }
+</script>
+</body>
+
+</html>

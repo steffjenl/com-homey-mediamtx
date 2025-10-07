@@ -1,0 +1,8 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Total Readers"
+  },
+  "getable": true,
+  "setable": false
+}

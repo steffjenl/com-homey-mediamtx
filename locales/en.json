@@ -1,1 +1,31 @@
-{}
+{
+  "title": "MediaMTX",
+  "pair": {
+    "validate": {
+      "title": "Validating MediaMTX Server",
+      "instruction": "Please set the MediaMTX in Settings first."
+    },
+    "login": {
+      "title": "Log in"
+    }
+  },
+  "settings": {
+    "title": "MediaMTX Settings",
+    "instruction": "Log in with the credentials of the MediaMTX API user.",
+    "nvr": "Server details",
+    "ip": "IP address",
+    "port": "Port",
+    "credentials": "User credentials",
+    "username": "Username",
+    "password": "Password",
+    "apply": "Apply",
+    "saved": "Settings saved.",
+    "testConnection": "Test connection",
+    "test_status": {
+      "success": "Credentials are valid.",
+      "failure": "Credentials are invalid."
+    },
+    "settings": "Settings",
+    "externalHostname": "External Hostname"
+  }
+}

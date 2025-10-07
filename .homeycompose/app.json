@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "compatibility": ">=12.4.0",
   "sdk": 3,
+  "brandColor": "#159EDA",
   "platforms": [
     "local"
   ],
@@ -10,9 +11,23 @@
     "en": "MediaMTX"
   },
   "description": {
-    "en": "Add support for MediaMTX streams"
+    "en": "Protect your privacy and stream your camera's RTSP feed locally to Homey using MediaMTX (formerly known as rtsp-simple-server). This app allows you to connect your RTSP cameras to Homey without exposing them to the internet, ensuring your video streams remain private and secure."
+  },
+  "tags": {
+    "en": [
+      "mediamtx",
+      "rtsp",
+      "webrtc",
+      "security",
+      "camera",
+      "video",
+      "recording",
+      "stream"
+    ]
   },
   "category": [
+    "appliances",
+    "security",
     "video"
   ],
   "permissions": [],
@@ -22,7 +37,34 @@
     "xlarge": "/assets/images/xlarge.png"
   },
   "author": {
-    "name": "Stèphan Eizinga (MonkeySoft)",
+    "name": "MonkeySoft",
     "email": "stephan@monkeysoft.nl"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Stèphan Eizinga",
+        "email": "stephan@monkeysoft.nl"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "steffjenl"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/steffjenl/com-homey-mediamtx/issues"
+  },
+  "support": "https://monkeysoft.nl/homey-integrations-support/",
+  "homepage": "https://monkeysoft.nl/",
+  "homeyCommunityTopicId": 42966,
+  "api": {
+    "testCredentials": {
+      "method": "POST",
+      "path": "/test"
+    }
   }
 }
