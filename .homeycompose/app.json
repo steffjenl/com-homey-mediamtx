@@ -60,7 +60,7 @@
   },
   "support": "https://monkeysoft.nl/homey-integrations-support/",
   "homepage": "https://monkeysoft.nl/",
-  "homeyCommunityTopicId": 42966,
+  "homeyCommunityTopicId": 143886,
   "api": {
     "testCredentials": {
       "method": "POST",
