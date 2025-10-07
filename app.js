@@ -13,6 +13,7 @@ module.exports = class MediaMTXApp extends Homey.App {
     this.log('MyApp has been initialized');
 
     this.externalHostname = null;
+    this.streamReaders = [];
 
     this.homey.settings.on('set', (key) => {
       if (key === 'ufp:credentials' || key === 'ufp:nvrip' || key === 'ufp:nvrport') {
@@ -54,9 +55,48 @@ module.exports = class MediaMTXApp extends Homey.App {
           streams.forEach(stream => {
             const device = this.driver.getDeviceById(stream.name);
             if (device) {
+              const oldTotalReaders = device.getCapabilityValue('totalReaders') || 0;
+              const newTotalReaders = stream.readers ? stream.readers.length : 0;
+              if (oldTotalReaders > newTotalReaders) {
+                this.homey.app.log(`Stream ${stream.name} has lost ${oldTotalReaders - newTotalReaders} reader(s).`);
+                if (!this.streamReaders[stream.name]) {
+                  this.streamReaders[stream.name] = [];
+                }
+                // Find readers that are in the old list but not in the new list
+                const intersection = this.streamReaders[stream.name].filter(x => !stream.readers.includes(x));
+                intersection.forEach(reader => {
+                  this.homey.app.log(`Reader ended: ${JSON.stringify(reader)}`);
+                  this.driver._deviceRTSPReaderEnd.trigger(device, {
+                    type: reader.type,
+                    id: reader.id
+                  });
+                });
+              } else if (newTotalReaders > oldTotalReaders) {
+                this.homey.app.log(`Stream ${stream.name} has gained ${newTotalReaders - oldTotalReaders} new reader(s).`);
+                if (!this.streamReaders[stream.name]) {
+                  this.streamReaders[stream.name] = [];
+                }
+                // Find readers that are in the new list but not in the old list
+                const intersection = this.streamReaders[stream.name].filter(x => !stream.readers.includes(x));
+                intersection.forEach(reader => {
+                  this.homey.app.log(`New reader detected: ${JSON.stringify(reader)}`);
+                  this.driver._deviceRTSPReaderStart.trigger(device, {
+                    type: reader.type,
+                    id: reader.id
+                  });
+                });
+              }
               device.setCapabilityValue('measure_data_size.bytesReceived', stream.bytesReceived);
               device.setCapabilityValue('measure_data_size.bytesSent', stream.bytesSent);
-              device.setCapabilityValue('totalReaders', stream.readers ? stream.readers.length : 0);
+              device.setCapabilityValue('totalReaders', newTotalReaders);
+              if (stream.readers && stream.readers.length > 0) {
+                this.streamReaders[stream.name] = stream.readers.map(reader => {
+                  return {
+                    type: reader.type,
+                    id: reader.id
+                  };
+                });
+              }
             }
           });
         })

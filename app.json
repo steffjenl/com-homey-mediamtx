@@ -68,6 +68,80 @@
       "path": "/test"
     }
   },
+  "flow": {
+    "triggers": [
+      {
+        "id": "ufp_device_rtsp_stream_reader_start",
+        "title": {
+          "en": "New rtsp stream reader detected"
+        },
+        "tokens": [
+          {
+            "name": "id",
+            "type": "string",
+            "title": {
+              "en": "Smart detection type"
+            },
+            "example": {
+              "en": "5e5f7b59-e42a-4750-9753-989ccbdf550c"
+            }
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "title": {
+              "en": "Smart detection type"
+            },
+            "example": {
+              "en": "5e5f7b59-e42a-4750-9753-989ccbdf550c"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rtsp-stream"
+          }
+        ]
+      },
+      {
+        "id": "ufp_device_rtsp_stream_reader_stop",
+        "title": {
+          "en": "Ended rtsp stream reader detected"
+        },
+        "tokens": [
+          {
+            "name": "id",
+            "type": "string",
+            "title": {
+              "en": "Smart detection type"
+            },
+            "example": {
+              "en": "5e5f7b59-e42a-4750-9753-989ccbdf550c"
+            }
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "title": {
+              "en": "Smart detection type"
+            },
+            "example": {
+              "en": "5e5f7b59-e42a-4750-9753-989ccbdf550c"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rtsp-stream"
+          }
+        ]
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {

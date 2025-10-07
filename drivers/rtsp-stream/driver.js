@@ -9,6 +9,9 @@ module.exports = class MyDriver extends Homey.Driver {
    */
   async onInit() {
     this.log('RTSPStreamDriver has been initialized');
+
+    this._deviceRTSPReaderStart = this.homey.flow.getDeviceTriggerCard('ufp_device_rtsp_stream_reader_start');
+    this._deviceRTSPReaderEnd = this.homey.flow.getDeviceTriggerCard('ufp_device_rtsp_stream_reader_stop');
   }
 
   async onPair(session) {
