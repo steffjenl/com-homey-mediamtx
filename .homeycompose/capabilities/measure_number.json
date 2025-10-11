@@ -1,7 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Total Readers"
+    "en": "Number",
+    "nl": "Getal"
   },
   "getable": true,
   "setable": false,

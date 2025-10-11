@@ -11,7 +11,7 @@
     "en": "MediaMTX"
   },
   "description": {
-    "en": "Protect your privacy and stream your camera's RTSP feed locally to Homey using MediaMTX (formerly known as rtsp-simple-server). This app allows you to connect your RTSP cameras to Homey without exposing them to the internet, ensuring your video streams remain private and secure."
+    "en": "Protect your privacy and stream your camera's RTSP feed locally to Homey using MediaMTX (formerly known as rtsp-simple-server). This app allows you to connect your RTSP cameras to Homey without exposing them to the internet without a username and password, ensuring your video streams remain private and secure."
   },
   "tags": {
     "en": [
