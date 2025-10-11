@@ -7,5 +7,8 @@
   },
   "1.0.2": {
     "en": "Add device trigger card for starting and ending reader stream"
+  },
+  "1.0.3": {
+    "en": "Add icon for readers"
   }
 }
